@@ -67,7 +67,6 @@ It will open automatically at:
 🎨 Animated jungle-themed UI with:
 🍃 Falling leaf emojis
 🦋 Floating butterfly emojis
-🌳 Background vines
 🎥 Animated background (GIF)
 
 💻 Technologies Used
