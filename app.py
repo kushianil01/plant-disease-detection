@@ -7,8 +7,7 @@ from gtts import gTTS
 import base64
 import os
 
-st.set_page_config(page_title="🌿 Plant Disease Detector", layout="centered")
-
+st.set_page_config(page_title="🍃🌿 Plant Disease Detector", layout="centered")
 
 # === Load GIF and Convert to Base64 ===
 def get_base64_gif(file_path):
@@ -16,9 +15,7 @@ def get_base64_gif(file_path):
         data = f.read()
     return base64.b64encode(data).decode()
 
-
 gif_base64 = get_base64_gif("plant_disease_app/assets/bg.gif")
-
 
 # === Voice Assistant ===
 def speak_text(disease_name, rec, filename="plant_audio.mp3"):
@@ -40,7 +37,6 @@ def speak_text(disease_name, rec, filename="plant_audio.mp3"):
         </audio>
     """
     return audio_html
-
 
 # === Custom CSS with Background and Animations ===
 st.markdown(f"""
@@ -126,43 +122,47 @@ st.markdown(f"""
     <div class="emoji emoji-butterfly">🦋</div>
 """, unsafe_allow_html=True)
 
-
 # === Load Model and Classes ===
 model = load_model("plant_disease_app/model/plant_disease_model.keras")
 with open("plant_disease_app/model/classes.txt", "r") as f:
     class_names = f.read().splitlines()
 
-
 # === Main Interface ===
-st.title("🧪🌿 Plant Disease Detector")
+st.title("🌿 Plant Disease Detector")
 st.markdown("Upload a plant leaf image to detect disease and get organic and chemical treatment suggestions.")
-
 
 uploaded_file = st.file_uploader("📷 Upload a leaf image", type=["jpg", "jpeg", "png"])
 
 if uploaded_file:
     with st.spinner("🌿 Analyzing your plant..."):
-        st.image(uploaded_file, caption="🌿 Uploaded Leaf Image", use_column_width=True)
+        st.image(uploaded_file, caption="🌿 Uploaded Leaf Image", use_container_width=True)
         img = load_and_preprocess(uploaded_file)
         prediction = model.predict(img)
         class_index = np.argmax(prediction)
-        disease_name = class_names[class_index]
-        rec = get_recommendations(disease_name)
+        confidence = prediction[0][class_index]
 
-    # === Results ===
-    formatted_name = disease_name.replace('_', ' ')
-    st.subheader(f"🦠 Detected Disease: {formatted_name}")
+        if confidence < 0.7:
+            st.subheader("⚠️ Unable to confidently detect disease")
+            st.warning("The uploaded image doesn't match any known disease confidently. Please upload a clearer leaf image.")
+        else:
+            disease_name = class_names[class_index]
+            rec = get_recommendations(disease_name)
 
-    st.markdown("### 🌱 Organic Treatment")
-    st.markdown(f"<div style='color:black'>{rec['organic']}</div>", unsafe_allow_html=True)
+            # === Results ===
+            formatted_name = disease_name.replace('_', ' ')
+            st.subheader(f"🦠 Detected Disease: {formatted_name}")
 
-    st.markdown("### 💊 Chemical Treatment")
-    st.markdown(f"<div style='color:black'>{rec['chemical']}</div>", unsafe_allow_html=True)
+            st.markdown("### 🌱 Organic Treatment")
+            st.markdown(f"<div style='color:black'>{rec['organic']}</div>", unsafe_allow_html=True)
 
-    st.markdown("### 🛡️ Prevention Tips")
-    st.markdown(f"<div style='color:black'>{rec['prevention']}</div>", unsafe_allow_html=True)
+            st.markdown("### 💊 Chemical Treatment")
+            st.markdown(f"<div style='color:black'>{rec['chemical']}</div>", unsafe_allow_html=True)
 
-    # === Voice Assistant Button ===
-    if st.button("🔊 Speak Diagnosis"):
-        audio_html = speak_text(disease_name, rec)
-        st.markdown(audio_html, unsafe_allow_html=True)
+            st.markdown("### 🛡️ Prevention Tips")
+            st.markdown(f"<div style='color:black'>{rec['prevention']}</div>", unsafe_allow_html=True)
+
+            # === Voice Assistant Button ===
+            if st.button("🔊 Speak Diagnosis"):
+                audio_html = speak_text(disease_name, rec)
+                st.markdown(audio_html, unsafe_allow_html=True)
+
