@@ -13,17 +13,19 @@ This is a machine learning-based plant leaf disease classification system built 
 This project uses a subset of the **PlantVillage Dataset**, which contains labeled images of healthy and diseased plant leaves.
 📥 Download Dataset:
 👉 https://www.kaggle.com/datasets/emmarex/plantdisease?resource=download
+Using split_dataset.py, the dataset gets divided into train,test & validation.The name of the dataset will be "PlantVillageSplit"
 
 🧠 Trained Model
 We used TensorFlow to train a CNN model on the PlantVillage dataset.
 📥 Download Trained Model:
-👉 https://drive.google.com/file/d/1zOgtS7w3ARE8M6T4CDeTRuTea6VAnkHx/view?usp=sharing
-> Place it inside 'plant_disease_app/model/ as: plant_disease_model.keras
+👉 [https://drive.google.com/file/d/1zOgtS7w3ARE8M6T4CDeTRuTea6VAnkHx/view?usp=sharing- plant_disease_model.keras](url)
+👉 [https://drive.google.com/file/d/1kZZTy0GMDN1Qv4YhTAG6V_rZdNfZdw5l/view?usp=sharing- classes.txt](url)
+> Place it inside 'plant_disease_app/model/ as: plant_disease_model.keras, Place classes.txt under the same folder as well.
 
 🎨 Jungle-Themed Background
 The app uses a beautiful jungle-style animated background.
 📥 Download Background GIF:
-👉 https://drive.google.com/file/d/1Bz_wn2c94ekn8snTmX6Dwz8TreR6UMwe/view?usp=sharing
+👉 [https://drive.google.com/file/d/1Bz_wn2c94ekn8snTmX6Dwz8TreR6UMwe/view?usp=sharing](url)
 > Save it inside: plant_disease_app/assets/bg.gif
 
 🗃️ Project Structure
